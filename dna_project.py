@@ -117,44 +117,59 @@ def needleman_wunsch(first_str, second_str):
 
 
 def editDistance(query, sequence):
-    """
-    Computes the Edit Distance between two DNA sequences.
-    
-    This algorithm counts the minimum number of operations (insertions, 
-    deletions, and substitutions) required to transform one sequence into another.
-    
-    Args:
+    '''
+    Computes the Edit Distance Algorithm to compare two sequences.
+
+    This algorithm uses dynamic programming to find the smallest number of
+    operations possible to transform one sequence into another, using insertion,
+    dleetion, or substitution.
+
+        Args:
         query (str): First DNA sequence
         sequence (str): Second DNA sequence
         
     Returns:
-        int: Number of operations needed to transform sequence into query
-    """
+        int: number of operations performed
+
+    '''
+
+    # Convert sequences to uppercase for case-insensitive comparison
+    query = query.upper()
+    sequence = sequence.upper()
+
     # counter for the operations performed
-    fixes = 0
+    fixes = []
+
+    m, n = len(query), len(sequence)
     
-    # check if they're the same length
-    if len(sequence) != len(query):
-        # number of insertions/deletes that need to happen
-        l = len(sequence) - len(query)
-        fixes += abs(l)
-        
-        # if the query is bigger add the missing characters to the sequence 
-        if l < 0:
-            extra = query[abs(l):]
-            sequence += extra
-        
-        # if sequence is bigger than query delete the extra
-        else:
-            sequence = sequence[0:len(query)]
+    # Create a 2D DP table
+    dp = [[0] * (n + 1) for i in range(m + 1)]
     
-    # check if a substitution needs to be made
-    for idx in range(len(query)):
-        if sequence[idx] != query[idx]:
-            fixes += 1
-    
+    # Fill the DP table
+    for i in range(m + 1):
+        for j in range(n + 1):
+            current = []
+            # fill in base cases
+            if i == 0:
+               dp[i][j] = j
+            elif j == 0:
+               dp[i][j] = i
+
+            else:
+                current.append(dp[i - 1][j] + 1)
+                current.append(dp[i][j - 1] + 1)
+                
+                # do the characters match?
+                if query[i - 1] != sequence[j - 1]:
+                    current.append(dp[i-1][j-1] + 2)
+                else:
+                    current.append(dp[i-1][j-1])
+
+                # choose lowest-cost operation
+                dp[i][j] = min(current)
+
     # return number of operations you did on the sequence
-    return fixes
+    return dp[m][n]
 
 
 def read_fasta(file_path):
