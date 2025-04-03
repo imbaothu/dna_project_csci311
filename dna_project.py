@@ -215,8 +215,8 @@ if __name__ == "__main__":
     
     # Look for files in current directory by default
     # Use the specific file paths
-    query_file = args.query if args.query else "/Users/autumnle/Downloads/DNA_query.txt"
-    database_file = args.database if args.database else "/Users/autumnle/Downloads/DNA_sequences.txt"
+    query_file = "DNA_query.txt"
+    database_file = "DNA_sequences.txt"
     
     print(f"Attempting to read files")
     print(f"Query file: {query_file}")
