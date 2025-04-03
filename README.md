@@ -13,4 +13,7 @@ Thu Le
 Joshua Lee
 
 ## Project Information
-This is a progam that examines different sequences of DNA for the sequence with the most in common with the target.
+This is a progam that examines different sequences of DNA for the sequence with the most in common with the target, and returns the most common sequence.
+
+## How to Run
+Open the file dna_project.py and enter the name of the query and sequences file you would like to compare.
