@@ -131,3 +131,4 @@ if __name__ == "__main__":
     print("\nMost similar sequence:")
     print(best_header)
     print(f"LCS Score: {best_score}")
+    
