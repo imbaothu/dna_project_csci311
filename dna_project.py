@@ -295,8 +295,8 @@ if __name__ == "__main__":
             if len(header.split()) > 0:
                 for i in range(1, len(header.split())):
                     short_header += header.split()[i] + " "
-                else:
-                    short_header += header
+            
+            print(f"LCSubsequence Score for {short_header}: {score}")
             
             if score > best_score_lcs:
                 best_score_lcs = score
@@ -318,8 +318,7 @@ if __name__ == "__main__":
             if len(header.split()) > 0:
                 for i in range(1, len(header.split())):
                     short_header += header.split()[i] + " "
-                else:
-                    short_header += header
+            
             print(f"LCSubstring Score for {short_header}: {score}")
             
             if score > best_score_substring:
@@ -342,8 +341,7 @@ if __name__ == "__main__":
             if len(header.split()) > 0:
                 for i in range(1, len(header.split())):
                     short_header += header.split()[i] + " "
-                else:
-                    short_header += header
+            
             print(f"N-W Score for {short_header}: {score}")
             
             if score > best_score_nw:
@@ -366,8 +364,7 @@ if __name__ == "__main__":
             if len(header.split()) > 0:
                 for i in range(1, len(header.split())):
                     short_header += header.split()[i] + " "
-                else:
-                    short_header += header
+            
             print(f"Edit Distance Score for {short_header}: {score}")
             
             # For edit distance, lower is better
@@ -389,6 +386,11 @@ if __name__ == "__main__":
         }.get(alg)
         
         print(f"\nMost similar sequence using {algorithm_name}:")
-        short_header = header.split()[0] if len(header.split()) > 0 else header
+        
+        short_header = ""
+        if len(header.split()) > 0:
+            for i in range(1, len(header.split())):
+                short_header += header.split()[i] + " "
+
         print(f"{short_header}")
         print(f"Score: {score}")
