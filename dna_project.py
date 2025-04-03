@@ -159,7 +159,7 @@ def editDistance(query, sequence):
                 current.append(dp[i - 1][j] + 1)
                 current.append(dp[i][j - 1] + 1)
                 
-                # do the characters match?
+                # do the characters match? if not add extra operation
                 if query[i - 1] != sequence[j - 1]:
                     current.append(dp[i-1][j-1] + 1)
                 else:
