@@ -224,10 +224,10 @@ def read_fasta(file_path):
 # Main execution
 if __name__ == "__main__":
     # Look for files directly in the current directory
-    query_file = "DNA_query.txt"
-    database_file = "DNA_sequences.txt"
+    query_file = input("Enter query file name: ")
+    database_file = input("Enter sequences file name: ")
     
-    print(f"Attempting to read files in current directory")
+    print(f"\nAttempting to read files in current directory")
     print(f"Query file: {query_file}")
     print(f"Database file: {database_file}")
     
@@ -258,83 +258,89 @@ if __name__ == "__main__":
     
     print(f"Found {len(database_sequences)} sequences in the database.")
     
-    # Find the most similar sequence using LCS
-    best_score = -1
-    best_header = None
-    
-    print("\nComputing LCSubsequence scores...")
-    for header, sequence in database_sequences.items():
-        score = longest_common_subsequence(query_sequence, sequence)
-        
-        # Print a short version of the header for easier reading
-        short_header = header.split()[0] if len(header.split()) > 0 else header
-        print(f"LCSubseqence Score for {short_header}: {score}")
-        
-        if score > best_score:
-            best_score = score
-            best_header = header
-    
-    # Find the most similar sequence using longest common substring
-    best_score2 = -1
-    best_header2 = None
-    
-    print("\nComputing LCSubstring scores...")
-    for header, sequence in database_sequences.items():
-        score = longest_common_substring(query_sequence, sequence)
-        
-        # Print a short version of the header for easier reading
-        short_header = header.split()[0] if len(header.split()) > 0 else header
-        print(f"LCSubstring Score for {short_header}: {score}")
-        
-        if score > best_score2:
-            best_score2 = score
-            best_header2 = header
+    print("\nEnter 1 for LCSubsequence, 2 for LCSubstring, 3 for Needleman-Wunsch, and 4 for Edit Distance")
+    algorithm = input("Choose algorithm: ")
 
-    # Find the most similar sequence using needleman wunsch algorithm
-    best_score3 = -1
-    best_header3 = None
-    
-    print("\nComputing Needleman-Wunsch scores...")
-    for header, sequence in database_sequences.items():
-        score = needleman_wunsch(query_sequence, sequence)
+    if algorithm == "1":
+        # Find the most similar sequence using LCS
+        best_score = -1
+        best_header = None
         
-        # Print a short version of the header for easier reading
-        short_header = header.split()[0] if len(header.split()) > 0 else header
-        print(f"N-W Score for {short_header}: {score}")
+        print("\nComputing LCSubsequence scores...")
+        for header, sequence in database_sequences.items():
+            score = longest_common_subsequence(query_sequence, sequence)
+            
+            # Print a short version of the header for easier reading
+            short_header = header.split()[0] if len(header.split()) > 0 else header
+            print(f"LCSubseqence Score for {short_header}: {score}")
+            
+            if score > best_score:
+                best_score = score
+                best_header = header
         
-        if score > best_score3:
-            best_score3 = score
-            best_header3 = header
-
-            # Find the most similar sequence using edit distance algorithm
-    best_score4 = -1
-    best_header4 = None
+        print("\nMost similar sequence:")
+        print(best_header)
+        print(f"LCSequence Score: {best_score}")
     
-    print("\nComputing Edit Distance scores...")
-    for header, sequence in database_sequences.items():
-        score = editDistance(query_sequence, sequence)
+    elif algorithm == "2":
+        # Find the most similar sequence using longest common substring
+        best_score2 = -1
+        best_header2 = None
         
-        # Print a short version of the header for easier reading
-        short_header = header.split()[0] if len(header.split()) > 0 else header
-        print(f"Edit Dist Score for {short_header}: {score}")
+        print("\nComputing LCSubstring scores...")
+        for header, sequence in database_sequences.items():
+            score = longest_common_substring(query_sequence, sequence)
+            
+            # Print a short version of the header for easier reading
+            short_header = header.split()[0] if len(header.split()) > 0 else header
+            print(f"LCSubstring Score for {short_header}: {score}")
+            
+            if score > best_score2:
+                best_score2 = score
+                best_header2 = header
         
-        if score > best_score3:
-            best_score4 = score
-            best_header4 = header
+        print("\nMost similar sequence:")
+        print(best_header2)
+        print(f"LCSubstring Score: {best_score2}")
     
+    elif algorithm == "3":
+        # Find the most similar sequence using needleman wunsch algorithm
+        best_score3 = -1
+        best_header3 = None
+        
+        print("\nComputing Needleman-Wunsch scores...")
+        for header, sequence in database_sequences.items():
+            score = needleman_wunsch(query_sequence, sequence)
+            
+            # Print a short version of the header for easier reading
+            short_header = header.split()[0] if len(header.split()) > 0 else header
+            print(f"N-W Score for {short_header}: {score}")
+            
+            if score > best_score3:
+                best_score3 = score
+                best_header3 = header
+        
+        print("\nMost similar sequence:")
+        print(best_header3)
+        print(f"Needleman Wunsch Score: {best_score3}")
     
-    print("\nMost similar sequence:")
-    print(best_header)
-    print(f"LCSequence Score: {best_score}")
-
-    print("\nMost similar sequence:")
-    print(best_header2)
-    print(f"LCSubstring Score: {best_score2}")
-
-    print("\nMost similar sequence:")
-    print(best_header3)
-    print(f"Needleman Wunsch Score: {best_score3}")
-
-    print("\nMost similar sequence:")
-    print(best_header4)
-    print(f"Edit Distance Score: {best_score4}")
+    elif algorithm == "4":
+        # Find the most similar sequence using edit distance algorithm
+        best_score4 = 10000
+        best_header4 = None
+        
+        print("\nComputing Edit Distance scores...")
+        for header, sequence in database_sequences.items():
+            score = editDistance(query_sequence, sequence)
+            
+            # Print a short version of the header for easier reading
+            short_header = header.split()[0] if len(header.split()) > 0 else header
+            print(f"Edit Dist Score for {short_header}: {score}")
+            
+            if score < best_score4:
+                best_score4 = score
+                best_header4 = header
+    
+        print("\nMost similar sequence:")
+        print(best_header4)
+        print(f"Edit Distance Score: {best_score4}")
